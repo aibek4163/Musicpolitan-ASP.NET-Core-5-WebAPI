@@ -19,5 +19,10 @@ namespace Musicpolitan.Database
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Articles> Articles { get; set; }
         public DbSet<Reviews> Reviews { get; set; }
+        public DbSet<Releases> Releases { get; set; }
+        public DbSet<Artists> Artists { get; set; }
+        public DbSet<Albums> Albums { get; set; }
+        public DbSet<Songs> Songs { get; set; }
+
     }
 }
