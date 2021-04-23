@@ -11,6 +11,9 @@ namespace Musicpolitan.Models
         public string Name { get; set; }
         public double Duration { get; set; }
         public string Image { get; set; }
+        public int Rating { get; set; }
         public Genre Genre { get; set; }
+        public Artists Artists { get; set; }
+        public Albums Albums { get; set; }
     }
 }

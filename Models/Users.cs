@@ -12,6 +12,7 @@ namespace Musicpolitan.Models
         public string Email { get; set; }
         public string Avatar { get; set; }
         public string Password { get; set; }
-
+        public List<Articles> Articles { get; set; }
+        public List<Reviews> Reviews{ get; set; }
     }
 }

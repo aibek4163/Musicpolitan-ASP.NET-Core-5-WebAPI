@@ -10,6 +10,7 @@ namespace Musicpolitan.Models
         public long Id { get; set; }
         public string Name { get; set; }
         public string Image { get; set; }
+        public DateTime Date { get; set; }
         public List<Songs> Songs { get; set; }
     }
 }

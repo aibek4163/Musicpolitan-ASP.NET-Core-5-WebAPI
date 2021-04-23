@@ -10,8 +10,8 @@ using Musicpolitan.Database;
 namespace Musicpolitan.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20210417035919_OtherModels")]
-    partial class OtherModels
+    [Migration("20210423120335_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,8 +28,8 @@ namespace Musicpolitan.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long?>("ArtistsId")
-                        .HasColumnType("bigint");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
@@ -38,8 +38,6 @@ namespace Musicpolitan.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ArtistsId");
 
                     b.ToTable("Albums");
                 });
@@ -87,6 +85,9 @@ namespace Musicpolitan.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Nickname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Photo")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -159,9 +160,6 @@ namespace Musicpolitan.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Image")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ReleaseName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ShortDescription")
@@ -242,6 +240,9 @@ namespace Musicpolitan.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AlbumsId");
@@ -277,17 +278,10 @@ namespace Musicpolitan.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Musicpolitan.Models.Albums", b =>
-                {
-                    b.HasOne("Musicpolitan.Models.Artists", null)
-                        .WithMany("Albums")
-                        .HasForeignKey("ArtistsId");
-                });
-
             modelBuilder.Entity("Musicpolitan.Models.Articles", b =>
                 {
                     b.HasOne("Musicpolitan.Models.Users", "Users")
-                        .WithMany()
+                        .WithMany("Articles")
                         .HasForeignKey("UsersId");
 
                     b.Navigation("Users");
@@ -309,7 +303,7 @@ namespace Musicpolitan.Migrations
                         .HasForeignKey("GenreId");
 
                     b.HasOne("Musicpolitan.Models.Users", "Users")
-                        .WithMany()
+                        .WithMany("Reviews")
                         .HasForeignKey("UsersId");
 
                     b.Navigation("Genre");
@@ -319,17 +313,21 @@ namespace Musicpolitan.Migrations
 
             modelBuilder.Entity("Musicpolitan.Models.Songs", b =>
                 {
-                    b.HasOne("Musicpolitan.Models.Albums", null)
+                    b.HasOne("Musicpolitan.Models.Albums", "Albums")
                         .WithMany("Songs")
                         .HasForeignKey("AlbumsId");
 
-                    b.HasOne("Musicpolitan.Models.Artists", null)
+                    b.HasOne("Musicpolitan.Models.Artists", "Artists")
                         .WithMany("Songs")
                         .HasForeignKey("ArtistsId");
 
                     b.HasOne("Musicpolitan.Models.Genre", "Genre")
                         .WithMany()
                         .HasForeignKey("GenreId");
+
+                    b.Navigation("Albums");
+
+                    b.Navigation("Artists");
 
                     b.Navigation("Genre");
                 });
@@ -341,9 +339,14 @@ namespace Musicpolitan.Migrations
 
             modelBuilder.Entity("Musicpolitan.Models.Artists", b =>
                 {
-                    b.Navigation("Albums");
-
                     b.Navigation("Songs");
+                });
+
+            modelBuilder.Entity("Musicpolitan.Models.Users", b =>
+                {
+                    b.Navigation("Articles");
+
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

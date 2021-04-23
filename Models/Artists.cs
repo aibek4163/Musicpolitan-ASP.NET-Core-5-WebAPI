@@ -9,7 +9,7 @@ namespace Musicpolitan.Models
     {
         public long Id { get; set; }
         public string Nickname { get; set; }
+        public string Photo { get; set; }
         public List<Songs> Songs { get; set; }
-        public List<Albums> Albums { get; set; }
     }
 }

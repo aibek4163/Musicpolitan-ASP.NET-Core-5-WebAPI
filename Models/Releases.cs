@@ -15,6 +15,5 @@ namespace Musicpolitan.Models
         public string BannerImage { get; set; }
         public DateTime Date { get; set; }
         public Artists Artists { get; set; }
-        public string ReleaseName { get; set; }
     }
 }
