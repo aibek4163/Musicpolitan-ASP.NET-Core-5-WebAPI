@@ -12,47 +12,47 @@ namespace Musicpolitan.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AlbumsController : ControllerBase
+    public class CommentsController : ControllerBase
     {
         private readonly DatabaseContext _context;
 
-        public AlbumsController(DatabaseContext context)
+        public CommentsController(DatabaseContext context)
         {
             _context = context;
         }
 
-        // GET: api/Albums
+        // GET: api/Comments
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Albums>>> GetAlbums()
+        public async Task<ActionResult<IEnumerable<Comment>>> GetComments()
         {
-            return await _context.Albums.ToListAsync();
+            return await _context.Comments.ToListAsync();
         }
 
-        // GET: api/Albums/5
+        // GET: api/Comments/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Albums>> GetAlbums(long id)
+        public async Task<ActionResult<Comment>> GetComment(long id)
         {
-            var albums = await _context.Albums.FindAsync(id);
+            var comment = await _context.Comments.FindAsync(id);
 
-            if (albums == null)
+            if (comment == null)
             {
                 return NotFound();
             }
 
-            return albums;
+            return comment;
         }
 
-        // PUT: api/Albums/5
+        // PUT: api/Comments/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAlbums(long id, Albums albums)
+        public async Task<IActionResult> PutComment(long id, Comment comment)
         {
-            if (id != albums.id)
+            if (id != comment.id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(albums).State = EntityState.Modified;
+            _context.Entry(comment).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace Musicpolitan.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AlbumsExists(id))
+                if (!CommentExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace Musicpolitan.Controllers
             return NoContent();
         }
 
-        // POST: api/Albums
+        // POST: api/Comments
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Albums>> PostAlbums(Albums albums)
+        public async Task<ActionResult<Comment>> PostComment(Comment comment)
         {
-            _context.Albums.Add(albums);
+            _context.Comments.Add(comment);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetAlbums", new { id = albums.id }, albums);
+            return CreatedAtAction("GetComment", new { id = comment.id }, comment);
         }
 
-        // DELETE: api/Albums/5
+        // DELETE: api/Comments/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAlbums(long id)
+        public async Task<IActionResult> DeleteComment(long id)
         {
-            var albums = await _context.Albums.FindAsync(id);
-            if (albums == null)
+            var comment = await _context.Comments.FindAsync(id);
+            if (comment == null)
             {
                 return NotFound();
             }
 
-            _context.Albums.Remove(albums);
+            _context.Comments.Remove(comment);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool AlbumsExists(long id)
+        private bool CommentExists(long id)
         {
-            return _context.Albums.Any(e => e.id == id);
+            return _context.Comments.Any(e => e.id == id);
         }
     }
 }

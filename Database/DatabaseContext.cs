@@ -23,6 +23,6 @@ namespace Musicpolitan.Database
         public DbSet<Artists> Artists { get; set; }
         public DbSet<Albums> Albums { get; set; }
         public DbSet<Songs> Songs { get; set; }
-
+        public DbSet<Comment> Comments { get; set; }
     }
 }

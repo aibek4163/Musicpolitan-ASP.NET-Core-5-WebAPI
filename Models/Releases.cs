@@ -7,13 +7,13 @@ namespace Musicpolitan.Models
 {
     public class Releases
     {
-        public long Id { get; set; }
-        public string Title { get; set; }
-        public string ShortDescription { get; set; }
-        public string Description { get; set; }
-        public string Image { get; set; }
-        public string BannerImage { get; set; }
-        public DateTime Date { get; set; }
-        public Artists Artists { get; set; }
+        public long id { get; set; }
+        public string title { get; set; }
+        public string shortDescription { get; set; }
+        public string text { get; set; }
+        public string image { get; set; }
+        public string banner_image { get; set; }
+        public DateTime date { get; set; }
+        public Artists artist { get; set; }
     }
 }

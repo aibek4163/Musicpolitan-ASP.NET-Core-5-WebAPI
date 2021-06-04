@@ -7,13 +7,12 @@ namespace Musicpolitan.Models
 {
     public class Songs
     {
-        public long Id { get; set; }
-        public string Name { get; set; }
-        public double Duration { get; set; }
-        public string Image { get; set; }
-        public int Rating { get; set; }
-        public Genre Genre { get; set; }
-        public Artists Artists { get; set; }
-        public Albums Albums { get; set; }
+        public long id { get; set; }
+        public string name { get; set; }
+        public double duration { get; set; }
+        public string image { get; set; }
+        public int rating { get; set; }
+        public Genre genre { get; set; }
+        public Artists artist { get; set; }
     }
 }

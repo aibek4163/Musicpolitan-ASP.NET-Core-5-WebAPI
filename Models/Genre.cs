@@ -7,7 +7,7 @@ namespace Musicpolitan.Models
 {
     public class Genre
     {
-        public long Id { get; set; }
-        public string Name { get; set; }
+        public long id { get; set; }
+        public string name { get; set; }
     }
 }

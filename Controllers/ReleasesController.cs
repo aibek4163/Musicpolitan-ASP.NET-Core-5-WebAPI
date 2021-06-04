@@ -32,6 +32,7 @@ namespace Musicpolitan.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Releases>> GetReleases(long id)
         {
+            List<Artists> artists = await _context.Artists.ToListAsync();
             var releases = await _context.Releases.FindAsync(id);
 
             if (releases == null)
@@ -47,12 +48,15 @@ namespace Musicpolitan.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutReleases(long id, Releases releases)
         {
-            if (id != releases.Id)
+            if (id != releases.id)
             {
                 return BadRequest();
             }
+            var u =  _context.Artists.Find(releases.artist.id);
+            Releases r = releases;
+            r.artist = u;
 
-            _context.Entry(releases).State = EntityState.Modified;
+            _context.Entry(r).State = EntityState.Modified;
 
             try
             {
@@ -78,10 +82,12 @@ namespace Musicpolitan.Controllers
         [HttpPost]
         public async Task<ActionResult<Releases>> PostReleases(Releases releases)
         {
+            var u = await _context.Artists.FindAsync(releases.artist.id);
+            releases.artist = u;
             _context.Releases.Add(releases);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetReleases", new { id = releases.Id }, releases);
+            return CreatedAtAction("GetReleases", new { id = releases.id }, releases);
         }
 
         // DELETE: api/Releases/5
@@ -102,7 +108,7 @@ namespace Musicpolitan.Controllers
 
         private bool ReleasesExists(long id)
         {
-            return _context.Releases.Any(e => e.Id == id);
+            return _context.Releases.Any(e => e.id == id);
         }
     }
 }

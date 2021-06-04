@@ -47,7 +47,7 @@ namespace Musicpolitan.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutGenre(long id, Genre genre)
         {
-            if (id != genre.Id)
+            if (id != genre.id)
             {
                 return BadRequest();
             }
@@ -81,7 +81,7 @@ namespace Musicpolitan.Controllers
             _context.Genres.Add(genre);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetGenre", new { id = genre.Id }, genre);
+            return CreatedAtAction("GetGenre", new { id = genre.id }, genre);
         }
 
         // DELETE: api/Genres/5
@@ -102,7 +102,7 @@ namespace Musicpolitan.Controllers
 
         private bool GenreExists(long id)
         {
-            return _context.Genres.Any(e => e.Id == id);
+            return _context.Genres.Any(e => e.id == id);
         }
     }
 }

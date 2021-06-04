@@ -25,6 +25,8 @@ namespace Musicpolitan.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Reviews>>> GetReviews()
         {
+            var u = await _context.Users.ToListAsync();
+            var g = await _context.Genres.ToListAsync();
             return await _context.Reviews.ToListAsync();
         }
 
@@ -32,6 +34,8 @@ namespace Musicpolitan.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Reviews>> GetReviews(long id)
         {
+            var u = await _context.Users.ToListAsync();
+            var g = await _context.Genres.ToListAsync();
             var reviews = await _context.Reviews.FindAsync(id);
 
             if (reviews == null)
@@ -47,11 +51,14 @@ namespace Musicpolitan.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutReviews(long id, Reviews reviews)
         {
-            if (id != reviews.Id)
+            if (id != reviews.id)
             {
                 return BadRequest();
             }
-
+            var u = await _context.Users.FindAsync(reviews.users.id);
+            var g = await _context.Genres.FindAsync(reviews.genre.id);
+            reviews.users = u;
+            reviews.genre = g;
             _context.Entry(reviews).State = EntityState.Modified;
 
             try
@@ -78,10 +85,14 @@ namespace Musicpolitan.Controllers
         [HttpPost]
         public async Task<ActionResult<Reviews>> PostReviews(Reviews reviews)
         {
+            var u = await _context.Users.FindAsync(reviews.users.id);
+            var g = await _context.Genres.FindAsync(reviews.genre.id);
+            reviews.users = u;
+            reviews.genre = g;
             _context.Reviews.Add(reviews);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetReviews", new { id = reviews.Id }, reviews);
+            return CreatedAtAction("GetReviews", new { id = reviews.id }, reviews);
         }
 
         // DELETE: api/Reviews/5
@@ -102,7 +113,7 @@ namespace Musicpolitan.Controllers
 
         private bool ReviewsExists(long id)
         {
-            return _context.Reviews.Any(e => e.Id == id);
+            return _context.Reviews.Any(e => e.id == id);
         }
     }
 }

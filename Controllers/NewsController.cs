@@ -16,6 +16,8 @@ namespace Musicpolitan.Controllers
     {
         private readonly DatabaseContext _context;
 
+        
+
         public NewsController(DatabaseContext context)
         {
             _context = context;
@@ -25,7 +27,31 @@ namespace Musicpolitan.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<News>>> GetNews()
         {
-            return await _context.News.ToListAsync();
+            List<News> news = _context.News.ToList();
+            news.Reverse();
+            return news;
+        }
+
+        [HttpGet("/api/main_news")]
+        public async Task<ActionResult<IEnumerable<News>>> GetSomeNews()
+        {
+            List<News> news = _context.News.ToList();
+            news.Reverse();
+            List<News> n = new List<News>();
+            for(int i = 0; i < 8; i++)
+            {
+                n.Add(news.ElementAt(i));
+            }
+            return n;
+        }
+
+        [HttpGet("/api/searchNews/{name}")]
+        public async Task<ActionResult<News>> SearchNews(string name)
+        {
+            var news = from s in _context.News select s;
+            news = news.Where(n => n.title.Contains(name));
+            
+            return Ok(news);
         }
 
         // GET: api/News/5
@@ -47,7 +73,7 @@ namespace Musicpolitan.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutNews(long id, News news)
         {
-            if (id != news.Id)
+            if (id != news.id)
             {
                 return BadRequest();
             }
@@ -81,7 +107,7 @@ namespace Musicpolitan.Controllers
             _context.News.Add(news);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetNews", new { id = news.Id }, news);
+            return CreatedAtAction("GetNews", new { id = news.id }, news);
         }
 
         // DELETE: api/News/5
@@ -102,7 +128,7 @@ namespace Musicpolitan.Controllers
 
         private bool NewsExists(long id)
         {
-            return _context.News.Any(e => e.Id == id);
+            return _context.News.Any(e => e.id == id);
         }
     }
 }

@@ -47,7 +47,7 @@ namespace Musicpolitan.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUsers(long id, Users users)
         {
-            if (id != users.Id)
+            if (id != users.id)
             {
                 return BadRequest();
             }
@@ -81,8 +81,13 @@ namespace Musicpolitan.Controllers
             _context.Users.Add(users);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUsers", new { id = users.Id }, users);
+            return CreatedAtAction("GetUsers", new { id = users.id }, users);
         }
+
+
+        
+
+
 
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
@@ -102,7 +107,7 @@ namespace Musicpolitan.Controllers
 
         private bool UsersExists(long id)
         {
-            return _context.Users.Any(e => e.Id == id);
+            return _context.Users.Any(e => e.id == id);
         }
     }
 }

@@ -25,6 +25,8 @@ namespace Musicpolitan.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Songs>>> GetSongs()
         {
+            var genres = await _context.Genres.ToListAsync();
+            var artist = await _context.Artists.ToListAsync();
             return await _context.Songs.ToListAsync();
         }
 
@@ -32,6 +34,8 @@ namespace Musicpolitan.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Songs>> GetSongs(long id)
         {
+            var genres = await _context.Genres.ToListAsync();
+            var artist = await _context.Artists.ToListAsync();
             var songs = await _context.Songs.FindAsync(id);
 
             if (songs == null)
@@ -47,11 +51,14 @@ namespace Musicpolitan.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutSongs(long id, Songs songs)
         {
-            if (id != songs.Id)
+            if (id != songs.id)
             {
                 return BadRequest();
             }
-
+            var g = _context.Genres.Find(songs.genre.id);
+            var a = _context.Artists.Find(songs.artist.id);
+            songs.genre = g;
+            songs.artist = a;
             _context.Entry(songs).State = EntityState.Modified;
 
             try
@@ -78,10 +85,14 @@ namespace Musicpolitan.Controllers
         [HttpPost]
         public async Task<ActionResult<Songs>> PostSongs(Songs songs)
         {
+            var g = _context.Genres.Find(songs.genre.id);
+            var a = _context.Artists.Find(songs.artist.id);
+            songs.genre = g;
+            songs.artist = a;
             _context.Songs.Add(songs);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetSongs", new { id = songs.Id }, songs);
+            return CreatedAtAction("GetSongs", new { id = songs.id }, songs);
         }
 
         // DELETE: api/Songs/5
@@ -102,7 +113,7 @@ namespace Musicpolitan.Controllers
 
         private bool SongsExists(long id)
         {
-            return _context.Songs.Any(e => e.Id == id);
+            return _context.Songs.Any(e => e.id == id);
         }
     }
 }

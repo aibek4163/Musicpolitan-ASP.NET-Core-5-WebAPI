@@ -7,12 +7,10 @@ namespace Musicpolitan.Models
 {
     public class Users
     {
-        public long Id { get; set; }
-        public string FullName { get; set; }
-        public string Email { get; set; }
-        public string Avatar { get; set; }
-        public string Password { get; set; }
-        public List<Articles> Articles { get; set; }
-        public List<Reviews> Reviews{ get; set; }
+        public long id { get; set; }
+        public string fullName { get; set; }
+        public string email { get; set; }
+        public string avatar { get; set; }
+        public string password { get; set; }
     }
 }
